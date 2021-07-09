@@ -3549,11 +3549,17 @@ ActionType TechnoClass::What_Action(ObjectClass const * object) const
 			// Do nothing.
 
 		} else {
+			// allowed to kill civilians without holding extra keys
+			auto killEmAll =
+                      object->What_Am_I() == RTTI_INFANTRY
+                          ? dynamic_cast<InfantryClass const *>(object)
+                                ->IsCivilian()
+                          : false;
 
 			/*
 			**	If firing is possible and legal, then return this action potential.
 			*/
-			if (House->IsPlayerControl && (ctrldown || !House->Is_Ally(object)) && (ctrldown || object->Class_Of().IsLegalTarget || (Rule.IsTreeTarget && object->What_Am_I() == RTTI_TERRAIN))) {
+			if (House->IsPlayerControl && (ctrldown || killEmAll || !House->Is_Ally(object)) && (ctrldown || object->Class_Of().IsLegalTarget || (Rule.IsTreeTarget && object->What_Am_I() == RTTI_TERRAIN))) {
 
 				if (Is_Weapon_Equipped() ||
 						(What_Am_I() == RTTI_INFANTRY &&

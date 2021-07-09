@@ -212,6 +212,14 @@ InfantryClass::InfantryClass(InfantryType classid, HousesType house) :
 }
 
 
+bool InfantryClass::IsCivilian() const {
+  if (Class) {
+    return Class->IsCivilian;
+  }
+  return false;
+}
+
+
 /***********************************************************************************************
  * InfantryClass::~InfantryClass -- Default destructor for infantry units.                     *
  *                                                                                             *

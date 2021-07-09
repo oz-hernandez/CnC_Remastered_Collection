@@ -40,6 +40,7 @@ class InfantryClass : public FootClass
 {
 	public:
 		CCPtr<InfantryTypeClass> Class;
+		bool IsCivilian() const;
 
 		/*
 		**	If the infantry is undergoing some choreographed animation sequence, then
