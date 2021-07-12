@@ -3274,6 +3274,20 @@ MoveType UnitClass::Can_Enter_Cell(CELL cell, FacingType ) const
 
 		if (obj != this) {
 
+			// run over civilians and enemy infantry
+			auto killEmAll =
+				obj->What_Am_I() == RTTI_INFANTRY
+				? dynamic_cast<InfantryClass const*>(obj)->IsCivilian()
+				: false;
+
+			auto isEnemyInfantry =
+                            !House->Is_Ally(obj) &&
+                            obj->What_Am_I() == RTTI_INFANTRY;
+
+			if( killEmAll || isEnemyInfantry ) {
+				return MOVE_OK;
+			}
+
 			/*
 			** If object is a land mine, allow movement if possible.
 			*/
@@ -3552,6 +3566,21 @@ ActionType UnitClass::What_Action(ObjectClass const * object) const
 		} else {
 			action = ACTION_SELECT;
 		}
+	}
+
+	// run over civilians and enemy infantry
+	auto killEmAll =
+            object->What_Am_I() == RTTI_INFANTRY
+                ? dynamic_cast<InfantryClass const *>(object)->IsCivilian()
+                : false;
+
+	auto isEnemyInfantry =
+            !House->Is_Ally(object) && object->What_Am_I() == RTTI_INFANTRY;
+
+	if( action == ACTION_ATTACK && (killEmAll || isEnemyInfantry) ) {
+		action = ACTION_MOVE;
+	} else {
+		action = ACTION_SELECT;
 	}
 
 	/*
@@ -4596,7 +4625,14 @@ void UnitClass::Overrun_Square(CELL cell, bool threaten)
 			ObjectClass * object = cellptr->Cell_Occupier();
 			int crushed = false;
 			while (object != NULL) {
-				if (object->Class_Of().IsCrushable && !House->Is_Ally(object) && Distance(object->Center_Coord()) < CELL_LEPTON_W/2) {
+				// run over civilians and enemy infantry
+                auto killEmAll =
+					object->What_Am_I() == RTTI_INFANTRY
+                        ? dynamic_cast<InfantryClass const *>(object)
+                            ->IsCivilian()
+                        : false;
+
+				if ( Distance( object->Center_Coord() ) < CELL_LEPTON_W / 2 && (object->Class_Of().IsCrushable && !House->Is_Ally(object)) || killEmAll ) {
 
 #ifdef OBSOLETE
 					/*

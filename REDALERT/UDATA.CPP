@@ -383,7 +383,7 @@ static UnitTypeClass const UnitJeep(
 	0x0000,					// Secondary weapon lateral offset along turret centerling.
 		true,					// Can this be a goodie surprise from a crate?
 		false,				// Always use the given name for the vehicle?
-		false,				// Can this unit squash infantry?
+		true,				// Can this unit squash infantry?
 		false,				// Does this unit harvest Tiberium?
 		false,				// Is invisible to radar?
 		false,				// Is it insignificant (won't be announced)?
@@ -476,7 +476,7 @@ static UnitTypeClass const UnitConvoyTruck(
 	0x0000,					// Secondary weapon lateral offset along turret centerling.
 		false,				// Can this be a goodie surprise from a crate?
 		false,				// Always use the given name for the vehicle?
-		false,				// Can this unit squash infantry?
+		true,				// Can this unit squash infantry?
 		false,				// Does this unit harvest Tiberium?
 		false,				// Is invisible to radar?
 		false,				// Is it insignificant (won't be announced)?
