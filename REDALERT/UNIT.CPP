@@ -3579,8 +3579,6 @@ ActionType UnitClass::What_Action(ObjectClass const * object) const
 
 	if( action == ACTION_ATTACK && (killEmAll || isEnemyInfantry) ) {
 		action = ACTION_MOVE;
-	} else {
-		action = ACTION_SELECT;
 	}
 
 	/*
